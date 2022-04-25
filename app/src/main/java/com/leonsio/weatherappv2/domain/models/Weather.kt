@@ -37,7 +37,7 @@ fun Weather.formatDate(): String {
         /** DEBUG dateStr = '2022-04-20T08:00:00+00:00' **/
 
         val inputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-        val outputFormatter = SimpleDateFormat("EEEE, d MMM", Locale.getDefault())
+        val outputFormatter = SimpleDateFormat("EEEE, d MMM - HH:mm", Locale.getDefault())
         val mDate = inputFormatter.parse(date) // this never ends while debugging
 
         mDate.let {

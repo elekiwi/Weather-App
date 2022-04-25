@@ -1,6 +1,11 @@
 package com.leonsio.weatherappv2.ui.fragments
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +30,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var viewModel: WeatherViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
+    private lateinit var connectivityLiveData:InternetConnection
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,14 +67,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewModel.updateUI()
+
+
     }
 
     fun subscribeToObservers() {
+        connectivityLiveData= InternetConnection(requireContext())
+        connectivityLiveData.observe(viewLifecycleOwner, Observer {isAvailable->
+            Log.e("ISAVAILABLE", "subscribeToObservers: $isAvailable", )
+            when(isAvailable)
+            {
+                true-> viewModel.connectivity = true
+                false-> viewModel.connectivity = false
+            }
+        })
+
         viewModel.weatherLiveData.observe(viewLifecycleOwner) { resource ->
 
 
             val listWeather = resource.data
-
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
@@ -111,33 +128,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.homeProgressBar.visibility = View.VISIBLE
     }
 
-    /*private fun checkConnectivity() {
-        val connectivity = InternetConnection(this)
-        connectivity.observe(this, Observer { isConnected ->
-            if (isConnected) {
-                binding.message = "Internet is connected!!!"
-                binding.internetStatusTV.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.internet_conn_green
-                    )
-                )
-                Handler(Looper.myLooper()!!).postDelayed({
-                    binding.networkStatus = true
-                    startNextActivity()
-                    finish()
-                }, 2000)
-            } else {
-                binding.networkStatus = false
-                binding.message = "No internet connection!!!"
-                binding.internetStatusTV.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.internet_conn_red
-                    )
-                )
-            }
-        })
-    }*/
+
 
 }
