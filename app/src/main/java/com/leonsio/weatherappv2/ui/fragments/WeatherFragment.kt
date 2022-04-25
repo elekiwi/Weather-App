@@ -34,45 +34,31 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-
         viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
 
+        setupRecyclerView()
+        subscribeToObservers()
+
+    }
+
+    fun subscribeToObservers(){
         viewModel.weatherLiveData.observe(viewLifecycleOwner) { resource ->
             val listWeather = resource.data
 
-                when (resource.status) {
-                Status.SUCCESS -> {
-                    //hideloadingbar()
-                    weathersAdapter.differ.submitList(listWeather?.sortedBy { it.date }
-                        ?.filter { it.cityName == args.cityName })
-                }
-                Status.ERROR -> {
-                    //hideloadingbar()
-                    weathersAdapter.differ.submitList(listWeather?.sortedBy { it.date }
-                        ?.filter { it.cityName == args.cityName })
+            weathersAdapter.differ.submitList(listWeather!!.sortedBy { it.date }
+                .filter { it.cityName == args.cityName })
 
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                }
-                Status.LOADING -> {
-                    //showloading bar
-                    //* *//
-                }
-            }
 
         }
-
-        viewModel.updateUI()
-
     }
+
+
 
     fun setupRecyclerView() {
         weathersAdapter = WeathersAdapter()
         binding.rvWeathers.apply {
             adapter = weathersAdapter
             layoutManager = LinearLayoutManager(requireContext())
-
-
         }
     }
 }

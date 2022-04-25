@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +15,8 @@ import com.leonsio.weatherappv2.R
 import com.leonsio.weatherappv2.adapters.HomeAdapter
 import com.leonsio.weatherappv2.databinding.FragmentHomeBinding
 import com.leonsio.weatherappv2.ui.viewmodels.WeatherViewModel
+import com.leonsio.weatherappv2.util.InternetConnection
+import com.leonsio.weatherappv2.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,10 +64,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     fun subscribeToObservers() {
-        viewModel.weatherLiveData.observe(viewLifecycleOwner) { listWeather ->
-            binding.sRefreshHome.isRefreshing = false
-            homeAdapter.differ.submitList(listWeather.distinctBy { it.cityName }
-                .sortedBy { it.cityName })
+        viewModel.weatherLiveData.observe(viewLifecycleOwner) { resource ->
+
+
+            val listWeather = resource.data
+
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    hideProgressBar()
+                    homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
+                        .sortedBy { it.cityName })
+                }
+                Status.ERROR -> {
+                    hideProgressBar()
+                    if (listWeather!!.isEmpty()){
+                        //show empty page
+                    }
+                    homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
+                        .sortedBy { it.cityName })
+
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> {
+                    showProgressBar()
+                }
+            }
         }
 
     }
@@ -75,5 +101,43 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         }
     }
+
+    private fun hideProgressBar() {
+        binding.homeProgressBar.visibility = View.INVISIBLE
+        binding.sRefreshHome.isRefreshing = false
+    }
+
+    private fun showProgressBar() {
+        binding.homeProgressBar.visibility = View.VISIBLE
+    }
+
+    /*private fun checkConnectivity() {
+        val connectivity = InternetConnection(this)
+        connectivity.observe(this, Observer { isConnected ->
+            if (isConnected) {
+                binding.message = "Internet is connected!!!"
+                binding.internetStatusTV.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.internet_conn_green
+                    )
+                )
+                Handler(Looper.myLooper()!!).postDelayed({
+                    binding.networkStatus = true
+                    startNextActivity()
+                    finish()
+                }, 2000)
+            } else {
+                binding.networkStatus = false
+                binding.message = "No internet connection!!!"
+                binding.internetStatusTV.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.internet_conn_red
+                    )
+                )
+            }
+        })
+    }*/
 
 }

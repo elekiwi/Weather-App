@@ -45,8 +45,6 @@ class WeatherViewModel @Inject constructor(
                 }
                 Status.LOADING -> Unit
             }
-
         }
     }
-
 }
