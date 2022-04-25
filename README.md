@@ -1,4 +1,4 @@
-# Weather-App
+### Weather-App
 
 * Minimum SDK level 21
 * 100% Kotlin + Coroutines
@@ -9,12 +9,15 @@
     * DataBinding
     * Navigation
 * Architecture
-    * MVVM Architecture
+    * MVVM Architecture - for me it's easy to read, maintain and extend if needed.
     * Repository pattern
     * Clean architecture design
+  
+
 * Hilt - dependency injection
 * Retrofit2 & Gson
 * Glide
+
 
 ***
 
@@ -30,7 +33,7 @@
 |Temperatures displayed chronologically|5 min|
 |Fetching from API/Database && internet |2h|
 
-## Comments from developer
+## Comments from developer / Next updates
 
 * Improve no internet mode. Handle one time error to avoid displaying too much toasts.
 * Improve no internet implementation in Data layer instead of UI
