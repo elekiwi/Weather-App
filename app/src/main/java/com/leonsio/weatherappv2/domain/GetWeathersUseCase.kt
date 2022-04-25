@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 class GetWeathersUseCase @Inject constructor(
     private val repository: WeatherRepositoryImpl,
-    ) {
+) {
 
     suspend operator fun invoke(): Resource<List<Weather>> {
 

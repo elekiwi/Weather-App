@@ -74,7 +74,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     fun subscribeToObservers() {
         connectivityLiveData= InternetConnection(requireContext())
         connectivityLiveData.observe(viewLifecycleOwner, Observer {isAvailable->
-            Log.e("ISAVAILABLE", "subscribeToObservers: $isAvailable", )
             when(isAvailable)
             {
                 true-> viewModel.connectivity = true

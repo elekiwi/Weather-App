@@ -11,7 +11,7 @@ import com.leonsio.weatherappv2.R
 import com.leonsio.weatherappv2.databinding.ItemHomeListBinding
 import com.leonsio.weatherappv2.domain.models.Weather
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter() : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>(){
 
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
