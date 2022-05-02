@@ -45,9 +45,11 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         viewModel.weatherLiveData.observe(viewLifecycleOwner) { resource ->
             val listWeather = resource.data
 
-            weathersAdapter.differ.submitList(listWeather!!.sortedBy { it.date }
-                .filter { it.cityName == args.cityName })
+            listWeather.let { list ->
+                weathersAdapter.differ.submitList(list!!.sortedBy { it.date }
+                    .filter { it.cityName == args.cityName })
 
+            }
 
         }
     }

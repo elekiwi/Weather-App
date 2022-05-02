@@ -35,8 +35,8 @@
 
 ## Comments from developer / Next updates
 
-* Improve no internet mode. Handle one time error to avoid displaying too much toasts.
-* Improve no internet implementation in Data layer instead of UI
+* Improve no internet mode. Handle one time error to avoid displaying too much toasts. (solved)
+* Improve no internet implementation in Data layer instead of UI (????)
 * Improve design
 * Add splash screen
 * Add empty pages

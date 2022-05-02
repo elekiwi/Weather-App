@@ -88,6 +88,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
+
                     homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
                         .sortedBy { it.cityName })
                 }
@@ -99,7 +100,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
                         .sortedBy { it.cityName })
 
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                    if (!viewModel.uiStateError){
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    viewModel.uiStateError = true
                 }
                 Status.LOADING -> {
                     showProgressBar()
