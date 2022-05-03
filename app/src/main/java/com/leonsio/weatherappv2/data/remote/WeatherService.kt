@@ -1,8 +1,6 @@
 package com.leonsio.weatherappv2.data.remote
 
-import android.util.Log
 import com.leonsio.weatherappv2.data.remote.models.WeathersResponse
-import com.leonsio.weatherappv2.util.InternetConnection
 import com.leonsio.weatherappv2.util.Resource
 import retrofit2.HttpException
 import retrofit2.Response

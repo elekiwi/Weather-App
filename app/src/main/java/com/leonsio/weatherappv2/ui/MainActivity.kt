@@ -1,8 +1,8 @@
 package com.leonsio.weatherappv2.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.leonsio.weatherappv2.R
 import com.leonsio.weatherappv2.ui.viewmodels.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint

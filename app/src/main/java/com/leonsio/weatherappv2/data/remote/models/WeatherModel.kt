@@ -1,7 +1,6 @@
 package com.leonsio.weatherappv2.data.remote.models
 
 import com.google.gson.annotations.SerializedName
-import com.leonsio.weatherappv2.domain.models.Weather
 
 
 data class WeatherModel(

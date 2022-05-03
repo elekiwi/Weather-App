@@ -1,16 +1,10 @@
 package com.leonsio.weatherappv2.ui.fragments
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +15,7 @@ import com.leonsio.weatherappv2.adapters.HomeAdapter
 import com.leonsio.weatherappv2.databinding.FragmentHomeBinding
 import com.leonsio.weatherappv2.ui.viewmodels.WeatherViewModel
 import com.leonsio.weatherappv2.util.InternetConnection
-import com.leonsio.weatherappv2.util.Status
+import com.leonsio.weatherappv2.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -82,14 +76,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
             val listWeather = resource.data
-            when (resource.status) {
-                Status.SUCCESS -> {
+            when (resource) {
+               is Resource.Success -> {
                     hideProgressBar()
 
                     homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
                         .sortedBy { it.cityName })
                 }
-                Status.ERROR -> {
+                is Resource.Error -> {
                     hideProgressBar()
                     if (listWeather!!.isEmpty()) {
                         //show empty page
@@ -104,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                     viewModel.uiStateError = true
                 }
-                Status.LOADING -> {
+                is Resource.Loading -> {
                     showProgressBar()
                 }
             }

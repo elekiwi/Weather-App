@@ -1,11 +1,8 @@
 package com.leonsio.weatherappv2.domain.models
 
-import android.os.Build
 import com.leonsio.weatherappv2.data.database.entities.WeatherEntity
 import com.leonsio.weatherappv2.data.remote.models.WeatherModel
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 data class Weather(
