@@ -23,6 +23,7 @@ import com.leonsio.weatherappv2.ui.viewmodels.WeatherViewModel
 import com.leonsio.weatherappv2.util.InternetConnection
 import com.leonsio.weatherappv2.util.Status
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -30,7 +31,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var viewModel: WeatherViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var connectivityLiveData:InternetConnection
+
+    @Inject
+    lateinit var connectivityLiveData: InternetConnection
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,10 +50,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setupRecyclerView()
         subscribeToObservers()
-
-        //value resource Livedata<Resource<List<Weather>>>
-        viewModel.weatherLiveData.value
-        //then when
 
         homeAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -72,12 +71,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     fun subscribeToObservers() {
-        connectivityLiveData= InternetConnection(requireContext())
-        connectivityLiveData.observe(viewLifecycleOwner, Observer {isAvailable->
-            when(isAvailable)
-            {
-                true-> viewModel.connectivity = true
-                false-> viewModel.connectivity = false
+        connectivityLiveData.observe(viewLifecycleOwner, Observer { isAvailable ->
+            when (isAvailable) {
+                true -> viewModel.connectivity = true
+                false -> viewModel.connectivity = false
             }
         })
 
@@ -94,14 +91,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
                 Status.ERROR -> {
                     hideProgressBar()
-                    if (listWeather!!.isEmpty()){
+                    if (listWeather!!.isEmpty()) {
                         //show empty page
                     }
                     homeAdapter.differ.submitList(listWeather!!.distinctBy { it.cityName }
                         .sortedBy { it.cityName })
 
-                    if (!viewModel.uiStateError){
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                    if (!viewModel.uiStateError) {
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                     viewModel.uiStateError = true
@@ -131,7 +129,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun showProgressBar() {
         binding.homeProgressBar.visibility = View.VISIBLE
     }
-
 
 
 }

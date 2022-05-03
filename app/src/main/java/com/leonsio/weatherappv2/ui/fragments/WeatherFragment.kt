@@ -50,7 +50,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                     .filter { it.cityName == args.cityName })
 
             }
-
         }
     }
 
