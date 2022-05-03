@@ -23,15 +23,14 @@ class WeatherService @Inject constructor(
             val response = execute()
             val body = response.body()
             if (response.isSuccessful && body != null) {
-
-                Resource.success(body)
+                Resource.Success(body)
             } else {
-                Resource.error(response.message(), null)
+                Resource.Error(response.message())
             }
         } catch (e: HttpException) {
-            Resource.error(e.message(), null)
+            Resource.Error(e.message())
         } catch (e: Throwable) {
-            Resource.error("Some error has occurred: ${e.message}", null)
+            Resource.Error("Some error has occurred ${e.message}")
         }
     }
 

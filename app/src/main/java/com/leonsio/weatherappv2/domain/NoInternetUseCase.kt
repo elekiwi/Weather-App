@@ -1,11 +1,8 @@
 package com.leonsio.weatherappv2.domain
 
-import com.leonsio.weatherappv2.data.database.entities.toDatabase
 import com.leonsio.weatherappv2.data.repositories.WeatherRepositoryImpl
 import com.leonsio.weatherappv2.domain.models.Weather
-import com.leonsio.weatherappv2.domain.models.toViewModel
 import com.leonsio.weatherappv2.util.Resource
-import com.leonsio.weatherappv2.util.Status
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +20,7 @@ class NoInternetUseCase @Inject constructor(
 
         }.join()
 
-        return Resource.error("No internet. Check your connection", list)
+        return Resource.Error("No internet. Check your connection", list)
     }
 
 }

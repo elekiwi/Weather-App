@@ -8,7 +8,6 @@ import com.leonsio.weatherappv2.domain.GetWeathersUseCase
 import com.leonsio.weatherappv2.domain.NoInternetUseCase
 import com.leonsio.weatherappv2.domain.models.Weather
 import com.leonsio.weatherappv2.util.Resource
-import com.leonsio.weatherappv2.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,30 +30,30 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (connectivity) {
-                _weatherLiveData.postValue(Resource.loading(null))
+                _weatherLiveData.postValue(Resource.Loading())
 
                 val result = fetchWeathersUseCase()
 
                 val list = result.data
-                when (result.status) {
-                    Status.SUCCESS -> {
+                when (result) {
+                    is Resource.Success -> {
                         uiStateError = false
 
                         if (!list.isNullOrEmpty()) {
-                            _weatherLiveData.postValue(Resource.success(list))
+                            _weatherLiveData.postValue(Resource.Success(list))
                         }
                     }
-                    Status.ERROR -> {
-                        _weatherLiveData.postValue(Resource.error(result.message!!, list))
+                    is Resource.Error  -> {
+                        _weatherLiveData.postValue(Resource.Error(result.message!!, list))
 
                     }
-                    Status.LOADING -> Unit
+                    is Resource.Loading -> Unit
                 }
             } else {
                 val result = noInternetUseCase()
                 val list = result.data
 
-                _weatherLiveData.postValue(Resource.error(result.message!!, list))
+                _weatherLiveData.postValue(Resource.Error(result.message!!, list))
 
 
             }

@@ -25,8 +25,7 @@ class WeatherRepositoryImpl @Inject constructor(
 
 
     override suspend fun fetchWeathersFromApi(): Resource<WeathersResponse> {
-        val response = remoteSource.invoke()
-        return response
+        return remoteSource.invoke()
     }
 
     override suspend fun fetchWeathersFromDatabase(): List<Weather> {
