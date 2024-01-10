@@ -21,17 +21,6 @@
 
 ***
 
-## Estimation of user stories
-
-|User story|Estimated time|
-|----------|--------------|
-|Home screen list|1h|
-|Cities sorted alphabetically|5 min|
-|Refresh home screen|5 min|
-|Weather list & navigation| 30 min|
-|Temperatures displayed in celsius|5 min|
-|Temperatures displayed chronologically|5 min|
-|Fetching from API/Database && internet |2h|
 
 ## Comments from developer / Next updates
 
